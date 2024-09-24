@@ -36,13 +36,25 @@ async function buscarObras(palabraClave = '', departamento = '', ubicacion = '')
     }
 }
 
-async function traducir(texto, idiomaDestino = 'es') {
-    try {
-        const res = await translate(texto, { to: idiomaDestino });
-        return res.text;
-    } catch (err) {
-        throw new Error(`Error al traducir: ${err}`);
+async function traducir(texto, traducido = 'es') {
+    if(!texto){
+        return Promise.resolve('');
     }
+    return new Promise((resolve, reject) => {
+       translate(
+        {
+            text: texto,
+            source : 'en',
+            target : traducido,
+        },
+        (resultado ) => {
+            if (resultado && resultado.translation) {
+                resolve(resultado.translation);
+        } else {
+            reject(new Error('Error al traducir el texto'));
+        }
+        }
+    );
+    });
 }
-
 module.exports ={inicializar, buscarObras, traducir};

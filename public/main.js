@@ -1,7 +1,7 @@
 // Variables globales
 const apiUrl = 'search';
-const objectUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects';
 const resultadosPorPagina = 20;
+const url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects';
 const maxPaginas = 20;
 let paginaActual = 1;
 let totalPaginas = 1;
@@ -72,16 +72,17 @@ async function mostrarResultados() {
 
     for (const id of objectIDsPaginaActual) {
         try {
-            const response = await fetch(`${objectUrl}/${id}`);
+            console.log(id);
+            const response = await fetch(`/objects/${id}`);
             if (!response.ok) continue;
 
             const data = await response.json();
 
             const imagenUrl = data.primaryImageSmall || './sources/imgAlternativa.jpg';
-            const titulo = 'Title: ' + (data.title || 'Sin título');
-            const cultura = data.culture ? 'Culture: ' + data.culture : 'Culture: no data';
-            const dinastia = data.dynasty ? 'Dynasty: ' + data.dynasty : 'Dinasty: no data';
-            const fecha = data.objectDate ? 'Date: ' + data.objectDate : 'Date: no data';
+            const titulo = 'Titulo: ' + (data.title || 'Sin título');
+            const cultura = data.culture ? 'Cultura: ' + data.culture : 'Culture: Sin Datos';
+            const dinastia = data.dynasty ? 'Dinastia: ' + data.dynasty : 'Dinasty: Sin Datos';
+            const fecha = data.objectDate ? 'Fecha: ' + data.objectDate : 'Date: Sin Datos';
 
             const tarjeta = document.createElement('div');
             tarjeta.classList.add('tarjeta');
@@ -166,9 +167,11 @@ function mostrarMensaje(mensaje) {
     mostrarPaginacion(); 
 }
 // Función para abrir una nueva pestaña con imágenes adicionales de una obra específica
+// Función para abrir una nueva pestaña con imágenes adicionales de una obra específica
 async function mostrarImagenesAdicionales(objectID) {
     try {
-        const response = await fetch(`${objectUrl}/${objectID}`);
+        // Obtener los datos de la obra específica
+        const response = await fetch(`${url}/${objectID}`);
         const data = await response.json();
 
         if (!data.additionalImages || data.additionalImages.length < 2) {
@@ -193,9 +196,22 @@ async function mostrarImagenesAdicionales(objectID) {
             <head>
                 <title>Imágenes Adicionales</title>
                 <style>
-                    body { font-family: Arial, sans-serif; padding: 20px; }
-                    .imagen { margin: 10px; }
-                    img { max-width: 200px; max-height: 200px; }
+                    body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+                    .imagen { margin: 10px; display: inline-block; }
+                    img { max-width: 200px; max-height: 200px; margin: 5px; }
+                    .boton-volver { 
+                        margin-top: 20px; 
+                        padding: 10px 20px; 
+                        background-color: #007bff; 
+                        color: white; 
+                        border: none; 
+                        cursor: pointer;
+                        text-decoration: none;
+                        display: inline-block;
+                    }
+                    .boton-volver:hover {
+                        background-color: #0056b3;
+                    }
                 </style>
             </head>
             <body>
@@ -209,6 +225,7 @@ async function mostrarImagenesAdicionales(objectID) {
 
         contenidoHTML += `
                 </div>
+                <button class="boton-volver" onclick="window.close();">Volver al historial</button>
             </body>
             </html>
         `;
@@ -220,6 +237,7 @@ async function mostrarImagenesAdicionales(objectID) {
         console.error('Error al mostrar imágenes adicionales:', error);
     }
 }
+
 
 // Inicialización de la búsqueda y carga de departamentos
 async function inicializar() {
@@ -238,9 +256,8 @@ async function inicializar() {
             selectDepartamento.appendChild(option);
         });
 
-        // Cargar todos los objetos al inicializar si no hay filtros aplicados
-        paginaActual = 1; // Resetear la página a 1 al inicializar
-        await buscarObras(); // Buscar todos los objetos al iniciar
+        paginaActual = 1;
+        await buscarObras(); 
     } catch (error) {
         console.error('Error al cargar los departamentos:', error);
     }
@@ -277,5 +294,4 @@ document.addEventListener('DOMContentLoaded', () => {
         fecha.style.display = 'none';
     });
 });
-
 inicializar();

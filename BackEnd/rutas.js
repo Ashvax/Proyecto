@@ -3,19 +3,18 @@ const { inicializar, buscarObras, traducir } = require('./app.js');
 const url = 'https://collectionapi.metmuseum.org/public/collection/v1/';
 
 router.get('/objects/:id', async (req, res) => {
-  const { id: objetoId } = req.params;
+  const id = req.params.id;
 
   try {
     const obtener = (await import('node-fetch')).default;
-    const respuesta = await obtener(`${url}objects/${objetoId}`);
+    const respuesta = await obtener(`${url}objects/${id}`);
     const data = await respuesta.json();
 
-    const title = await traducir(data.title);
-    const culture = await traducir(data.culture) || 'Sin Datos';
-    const dynasty = await traducir(data.dynasty) || 'Sin Datos';
-    
-    console.log(title);
-    res.json({ ...data, title, culture, dynasty });
+    data.title = await traducir(data.title);
+    data.culture = await traducir(data.culture);
+    data.dynasty = await traducir(data.dynasty);
+    data.objectDate	= await traducir(data.objectDate);
+    res.json(data);
   } catch (error) {
     console.error('Error al obtener o traducir datos:', error);
     res.status(500).json({ error: 'Error al procesar la solicitud' });
