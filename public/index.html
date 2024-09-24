@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museo Metropolitano</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Bienvenido al Museo Metropolitano</h1>
+        <form class="form" id="formBusqueda">
+            <input type="text" id="palabraClave" placeholder="Buscar por palabra clave" required>
+            <select id="departamento">
+
+            </select>
+            <input type="text" id="ubicacion" placeholder="Ubicación">
+            <button type="button" id="buscarBtn">Buscar</button>
+        </form>
+    </header>
+    <main>
+        <div id="contenedor">
+            <div class="contenedor-loader" style="display: none;">
+              <div class="loader"></div>
+            </div>
+            <div class="cargando" style="display: none;">Cargando...</div>
+          </div>
+        <div id="resultados"></div>
+        <div id="paginacion">
+            <button class="prev">Anterior</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="next">Siguiente</button>
+        </div>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
