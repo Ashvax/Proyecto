@@ -72,7 +72,6 @@ async function mostrarResultados() {
 
     for (const id of objectIDsPaginaActual) {
         try {
-            console.log(id);
             const response = await fetch(`/objects/${id}`);
             if (!response.ok) continue;
 
