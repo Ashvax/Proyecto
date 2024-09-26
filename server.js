@@ -6,8 +6,15 @@ const rutas = require('./BackEnd/rutas');
 
 app.use(express.json());
 
+const loggerMiddleware = (req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+};
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Usar el middleware antes de las rutas
+app.use(loggerMiddleware);
+
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public','index.html'));

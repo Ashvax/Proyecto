@@ -33,5 +33,4 @@ router.get('/search', async (req, res) => {
     const objetos = await buscarObras(palabraClave, departamentos, ubicacion);
     res.json(objetos);
 });
-
 module.exports = router;
