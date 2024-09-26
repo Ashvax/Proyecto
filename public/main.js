@@ -72,6 +72,7 @@ async function mostrarResultados() {
 
     for (const id of objectIDsPaginaActual) {
         try {
+
             const response = await fetch(`/objects/${id}`);
             if (!response.ok) continue;
 
@@ -79,9 +80,9 @@ async function mostrarResultados() {
 
             const imagenUrl = data.primaryImageSmall || './sources/imgAlternativa.jpg';
             const titulo = 'Titulo: ' + (data.title || 'Sin título');
-            const cultura = data.culture ? 'Cultura: ' + data.culture : 'Culture: Sin Datos';
-            const dinastia = data.dynasty ? 'Dinastia: ' + data.dynasty : 'Dinasty: Sin Datos';
-            const fecha = data.objectDate ? 'Fecha: ' + data.objectDate : 'Date: Sin Datos';
+            const cultura = data.culture ? 'Cultura: ' + data.culture : 'Cultura: Sin Datos';
+            const dinastia = data.dynasty ? 'Dinastia: ' + data.dynasty : 'Dinastia: Sin Datos';
+            const fecha = data.objectDate ? 'Fecha: ' + data.objectDate : 'Fecha: Sin Datos';
 
             const tarjeta = document.createElement('div');
             tarjeta.classList.add('tarjeta');
