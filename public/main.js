@@ -126,8 +126,6 @@ async function mostrarResultados() {
     mostrarPaginacion();
 }
 
-
-
 // Función para mostrar la paginación
 function mostrarPaginacion() {
     const contenedor = document.getElementById('paginacion');
