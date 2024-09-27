@@ -489,17 +489,3 @@ header {
       height: 3em; /* Mantener la altura de la animación */
     }
   }
-  footer {
-    text-align: center; /* Centra el texto horizontalmente */
-    margin-top: 20px; /* Añade un espacio superior */
-    padding: 10px 0; /* Añade un espacio arriba y abajo */
-}
-
-footer a {
-    color: blue; /* Color del enlace */
-    text-decoration: none; /* Elimina el subrayado */
-}
-
-footer a:hover {
-    text-decoration: underline; /* Añade subrayado al pasar el ratón */
-}
